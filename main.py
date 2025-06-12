@@ -171,7 +171,7 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
                 "page_number": doc_index + 1,
                 "chunk_index": len(chunks) + 1
             }
-            chunks.append(Document(page_content=emitted_chunk_text, metadata=chunk_metadata))
+            chunks.append(Document(page_content=final_chunk_text, metadata=chunk_metadata))
 
     output_filename = "output_semantic.txt"
     try:
@@ -230,7 +230,9 @@ def main():
         print(f"Number of documents (pages) extracted: {len(pages)}")
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-        chunks = semantic_chunker_production_final(pages, 1100, 200)
+        chunks = semantic_chunker(pages, 1100, 200)
+        for i, chunk_doc in enumerate(chunks):
+            print(chunk_doc.metadata)
 
 
 main()
