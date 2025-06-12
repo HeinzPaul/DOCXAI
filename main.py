@@ -66,7 +66,8 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
                 emitted_chunk_text = candidate_joined_text
                 emitted_chunk_sentence_list = candidate_sentences
                 chunk_metadata = {
-                    **doc.metadata,  # ← merges existing metadata
+                    "source": doc.metadata.get("source"),
+                    "file_path": doc.metadata.get("file_path"),
                     "page_number": doc_index + 1,
                     "chunk_index": len(chunks) + 1
                 }
@@ -107,7 +108,8 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
         if current_sentences_for_chunk:
             final_chunk_text = " ".join(current_sentences_for_chunk)
             chunk_metadata = {
-                **doc.metadata,  # ← merges existing metadata
+                "source": doc.metadata.get("source"),
+                "file_path": doc.metadata.get("file_path"),
                 "page_number": doc_index + 1,
                 "chunk_index": len(chunks) + 1
             }
