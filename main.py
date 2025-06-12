@@ -80,7 +80,7 @@ def extract_text_and_tables_in_order(docx_path):
                 full_text_content += " ".join(row_cells_text) + "\n"
             full_text_content += "\n" # Add a newline to separate tables
 
-    text_as_doc = Document(page_content=full_text_content, metadata={"source": os.path.basename(docx_path), "file_type": "docx"})
+    text_as_doc = Document(page_content=full_text_content, metadata={"source": os.path.basename(docx_path),"file_path":docx_path ,"file_type": "docx"})
     return [text_as_doc]
 
 '''End of those newly added '''

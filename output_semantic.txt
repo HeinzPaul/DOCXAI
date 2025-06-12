@@ -47,24 +47,7 @@ Complex Tables
 The following is a complex table, using merged cells as headers for sections wi
 ... (actual length: 1115, chunk_size: 1100)
 ____Chunk3____
-Headings 
-Lists 
-Links 
-Images 
-Tables 
-Simple Tables 
-Complex Tables 
-Columns 
-Links
-In web documents, links can point different locations on the page, different pages, or even downloadable documents, such as Word documents or PDFs:
-Top of this Page
-Sample Document
-Sample Document (docx)
-Images
-Documents may contain images. For example, there is an image of the web accessibility symbol to the left of this paragraph. Its alternate text is "Web Access Symbol". Alt text should communicate what an image means, not how it looks. Some images, such as charts or graphs, require long descriptions, but not all document types allow that. In web pages, long descriptions may be provided in several ways: on the page below the image, via a link below the image, or via a link on the image. Tables
-Simple Tables
-Simple tables have a uniform number of columns and rows, without any merged cells:
-Screen Reader Responses Share
+hare
 JAWS 853 49%
 NVDA 238 14%
 Window-Eyes 214 12%
@@ -72,5 +55,14 @@ System Access 181 10%
 VoiceOver 159 9%
 
 Complex Tables
-The following is a complex table, using merged cells as headers for sections wi
-... (actual length: 1115, chunk_size: 1100)
+The following is a complex table, using merged cells as headers for sections within the table. This can't be made accessible in all types of documents:
+ May 2012 May 2012 September 2010 September 2010
+Screen Reader Responses Share Responses Share
+JAWS 853 49% 727 59%
+NVDA 238 14% 105 9%
+Window-Eyes 214 12% 138 11%
+System Access 181 10% 58 5%
+VoiceOver 159 9% 120 10%
+
+Columns
+This is an example of columns. With columns, the page is split into two or more horizontal sections. Unlike tables, in which you usually read across a row and then down to the next, in columns, you read down a column and then across to the next.When columns are not created correctly, screen readers may run lines together, reading the first line of the first column, then the first line of the second column, then the second line of the first column, and so on. Obviously, that is not accessible.
