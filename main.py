@@ -7,6 +7,15 @@ import nltk
 from nltk.tokenize import sent_tokenize
 import zipfile
 
+''' Adding new imports required for understanding underlying XML structure'''
+from docx import Document as DocxDocument
+from docx.oxml.text.paragraph import CT_P
+from docx.oxml.table import CT_Tbl
+from docx.table import Table as DocxTable
+from docx.text.paragraph import Paragraph as DocxParagraph
+
+
+
 nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_path):
     os.makedirs(nltk_data_path)
@@ -26,6 +35,55 @@ if nltk_data_path not in nltk.data.path:
 
 session='semantic' #'semantic' or 'text'
 
+
+
+'''Adding new functions so that we can read table content from .docx files'''
+def iter_block_items(parent):
+    """
+    Generates a reference to each paragraph and table child in document order.
+    `parent` would most commonly be a reference to a main Document object,
+    but also works for a _Cell object, which itself can contain paragraphs and tables.
+    """
+    # This part handles different types of parents (Document, Cell, etc.)
+    if hasattr(parent, 'element') and hasattr(parent.element, 'body'):
+        parent_elm = parent.element.body
+    elif hasattr(parent, '_tc'): # For a _Cell object
+        parent_elm = parent._tc
+    elif hasattr(parent, '_tr'): # For a _Row object (though usually you iterate cells)
+        parent_elm = parent._tr
+    else:
+        # Fallback for unexpected types, though often you'd only call this on Document or Cell
+        # For simplicity, if you only expect Document objects, you can simplify this.
+        if hasattr(parent, 'element'):
+            parent_elm = parent.element
+        else:
+            raise ValueError(f"Unsupported parent type for iteration: {type(parent)}")
+
+    for child in parent_elm.iterchildren():
+        if isinstance(child, CT_P): # Check if the XML element is a paragraph
+            yield DocxParagraph(child, parent)
+        elif isinstance(child, CT_Tbl): # Check if the XML element is a table
+            yield DocxTable(child, parent)
+
+def extract_text_and_tables_in_order(docx_path):
+    doc = DocxDocument(docx_path)
+    full_text_content = ""
+
+    for block in iter_block_items(doc):
+        if isinstance(block, DocxParagraph):
+            if block.text.strip():
+                full_text_content += block.text + "\n"
+        elif isinstance(block, DocxTable):
+            # Process table content
+            for row in block.rows:
+                row_cells_text = [cell.text.strip() for cell in row.cells]
+                full_text_content += " ".join(row_cells_text) + "\n"
+            full_text_content += "\n" # Add a newline to separate tables
+
+    text_as_doc = Document(page_content=full_text_content, metadata={"source": os.path.basename(docx_path), "file_type": "docx"})
+    return [text_as_doc]
+
+'''End of those newly added '''
 def extract_text_from_docx(docx_path):
     doc = DocxDocument(docx_path)
     text = ""
@@ -146,7 +204,7 @@ def extractor(file_path):
             print("Sucessfully loaded",len(pages), "from",file_path)
             return pages
         elif file_path.lower().endswith(".docx"):
-            text = extract_text_from_docx(file_path)
+            text = extract_text_and_tables_in_order(file_path)
             return text
 
     else:
@@ -162,10 +220,17 @@ def main():
 
     elif session=='semantic':
         pages = extractor(file_path)
+        output_parsed_text = "output_parsed_text"
+        with open(output_parsed_text, "w", encoding="utf-8") as f:
+            for i, doc_item in enumerate(pages):
+                    # Correct way to access and write page content
+                    f.write(f"--- Page {i+1} ---\n")
+                    f.write(doc_item.page_content)
+                    f.write("\n\n") # Add some separation between pages
         print(f"Number of documents (pages) extracted: {len(pages)}")
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-        chunks = semantic_chunker(pages, 1100, 200)
+        chunks = semantic_chunker_production_final(pages, 1100, 200)
 
 
 main()
