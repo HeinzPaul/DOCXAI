@@ -5,6 +5,7 @@ from langchain_core.documents import Document
 from docx import Document as DocxDocument
 import nltk
 from nltk.tokenize import sent_tokenize
+import zipfile
 
 nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_path):
@@ -20,6 +21,8 @@ if not os.path.exists(nltk_data_path):
 
 if nltk_data_path not in nltk.data.path:
     nltk.data.path.insert(0, nltk_data_path)
+
+
 
 session='semantic' #'semantic' or 'text'
 
@@ -137,7 +140,7 @@ def main():
         print(f"Number of documents (pages) extracted: {len(pages)}")
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-        chunks = semantic_chunker(pages, 500, 200)
+        chunks = semantic_chunker(pages, 1100, 200)
 
 
 main()
