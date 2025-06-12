@@ -52,7 +52,7 @@ def text_chunker(pages, chunk_size = 500 , chunk_overlap = 200):
     return chunks
 
 
-def semantic_chunker_production_final(pages, chunk_size=500, chunk_overlap=200):
+def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
     chunks = []
     for doc_index, doc in enumerate(pages):
         sentences = sent_tokenize(doc.page_content)
@@ -65,7 +65,12 @@ def semantic_chunker_production_final(pages, chunk_size=500, chunk_overlap=200):
             if current_sentences_for_chunk and len(candidate_joined_text) > chunk_size:
                 emitted_chunk_text = candidate_joined_text
                 emitted_chunk_sentence_list = candidate_sentences
-                chunks.append(Document(page_content=emitted_chunk_text))
+                chunk_metadata = {
+                    **doc.metadata,  # ← merges existing metadata
+                    "page_number": doc_index + 1,
+                    "chunk_index": len(chunks) + 1
+                }
+                chunks.append(Document(page_content=emitted_chunk_text, metadata=chunk_metadata))
 
                 new_base_for_next_chunk_parts = []
                 if not emitted_chunk_sentence_list:
@@ -101,9 +106,14 @@ def semantic_chunker_production_final(pages, chunk_size=500, chunk_overlap=200):
 
         if current_sentences_for_chunk:
             final_chunk_text = " ".join(current_sentences_for_chunk)
-            chunks.append(Document(page_content=final_chunk_text))
+            chunk_metadata = {
+                **doc.metadata,  # ← merges existing metadata
+                "page_number": doc_index + 1,
+                "chunk_index": len(chunks) + 1
+            }
+            chunks.append(Document(page_content=emitted_chunk_text, metadata=chunk_metadata))
 
-    output_filename = "output_semantic_production_final.txt"
+    output_filename = "output_semantic.txt"
     try:
         with open(output_filename, "w", encoding="utf-8") as f:
             for i, chunk_doc in enumerate(chunks):
@@ -120,64 +130,6 @@ def semantic_chunker_production_final(pages, chunk_size=500, chunk_overlap=200):
         # In production, consider proper logging instead of print
         # print(f"Error writing production output file: {e}")
         pass  # Or raise e, or log e
-
-    return chunks
-
-def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
-    chunks = []
-    for doc_index, doc in enumerate(pages):
-        sentences = sent_tokenize(doc.page_content)
-        current_sentences_for_chunk = []
-
-        for sentence_index, sentence in enumerate(sentences):
-            current_sentence_text = sentence
-
-            potential_chunk_sentences = current_sentences_for_chunk + [current_sentence_text]
-            potential_chunk_text = " ".join(potential_chunk_sentences)
-
-            if current_sentences_for_chunk and len(potential_chunk_text) > chunk_size:
-                chunk_to_emit_text = " ".join(current_sentences_for_chunk)
-                chunks.append(Document(page_content=chunk_to_emit_text))
-
-                if len(chunk_to_emit_text) > chunk_size:
-                    overlap_text_for_next_chunk = chunk_to_emit_text[-chunk_overlap:]
-                    current_sentences_for_chunk = [overlap_text_for_next_chunk]
-                else:
-                    overlap_sentences_for_next_chunk = []
-                    temp_overlap_candidate_sentences = []
-                    for s_overlap in reversed(current_sentences_for_chunk):
-                        temp_overlap_candidate_sentences.insert(0, s_overlap)
-                        current_overlap_joined_text = " ".join(temp_overlap_candidate_sentences)
-                        if len(current_overlap_joined_text) >= chunk_overlap:
-                            break
-                    overlap_sentences_for_next_chunk = temp_overlap_candidate_sentences
-                    current_sentences_for_chunk = overlap_sentences_for_next_chunk[:]
-
-                current_sentences_for_chunk.append(current_sentence_text)
-            else:
-                current_sentences_for_chunk.append(current_sentence_text)
-
-        if current_sentences_for_chunk:
-            final_chunk_text = " ".join(current_sentences_for_chunk)
-            chunks.append(Document(page_content=final_chunk_text))
-
-    output_filename = "output_semantic.txt"
-    try:
-        with open(output_filename, "w", encoding="utf-8") as f:
-            for i, chunk_doc in enumerate(chunks):
-                header = f"____Chunk{i + 1}____\n"
-                page_content_to_write = chunk_doc.page_content
-                content_display = page_content_to_write[:chunk_size]
-
-                content_display_full = content_display
-                if len(page_content_to_write) > chunk_size:
-                    content_display_full += f"\n... (actual length: {len(page_content_to_write)}, chunk_size: {chunk_size})"
-
-                f.write(header)
-                f.write(content_display_full + "\n")
-        print(f"Production chunking output written to {output_filename}")
-    except Exception as e:
-        print(f"Error writing production output file: {e}")
 
     return chunks
 
