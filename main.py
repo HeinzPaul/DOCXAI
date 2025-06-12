@@ -2,7 +2,6 @@ from langchain_community.document_loaders import PDFPlumberLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 from langchain_core.documents import Document
-from docx import Document as DocxDocument
 import nltk
 from nltk.tokenize import sent_tokenize
 import zipfile
