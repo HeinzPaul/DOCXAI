@@ -3,6 +3,21 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from typing import List
 from langchain_core.documents import Document
 import os
+from sentence_transformers import CrossEncoder
+
+cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+def hybrid_rerank_with_cross_encoder(query: str, docs: list, top_k: int = 5):
+    pairs = [(query, doc.page_content) for doc in docs]
+    scores = cross_encoder.predict(pairs)
+
+    # Attach scores and sort
+    scored_docs = sorted(zip(scores, docs), reverse=True, key=lambda x: x[0])
+    print("\nCross-Encoder Scores:")
+    for i, (score, doc) in enumerate(scored_docs[:top_k]):
+        print(f"{i + 1}. Score: {score:.2f} | Preview: {doc.page_content[:80]}")
+
+    return [doc for score, doc in scored_docs[:top_k]]
 
 def embed_and_store_with_faiss(chunks: List[Document], openai_api_key: str, save_path: str = "faiss_index_store") -> FAISS:
     """Embed the given chunks using OpenAI and store them in a FAISS index."""
@@ -21,7 +36,7 @@ def embed_and_store_with_faiss(chunks: List[Document], openai_api_key: str, save
 def load_faiss_index(save_path: str, openai_api_key: str) -> FAISS:
     """Load FAISS index from disk."""
     embedding_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
-    return FAISS.load_local(save_path, embedding=embedding_model)
+    return FAISS.load_local(save_path, embedding_model, allow_dangerous_deserialization=True)
 
 
 def search_faiss(faiss_index: FAISS, query: str, k: int = 3):

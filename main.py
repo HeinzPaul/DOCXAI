@@ -12,6 +12,7 @@ from docx.table import Table as DocxTable
 from docx.text.paragraph import Paragraph as DocxParagraph
 from embedding import embed_and_store_with_faiss
 from dotenv import load_dotenv
+from embedding import search_faiss, load_faiss_index, hybrid_rerank_with_cross_encoder
 
 
 load_dotenv()
@@ -210,30 +211,41 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
 
 
 def main():
-    file_path = input("Enter the name of the path")
-    if session=='text':
-        pages = extractor(file_path)
-        print(pages)
-        chunks = text_chunker(pages, 500, 200)
+    task = input("Enter what to do - embed or query ")
+    if task == "embed":
+        file_path = input("Enter the name of the path")
+        if session=='text':
+            pages = extractor(file_path)
+            print(pages)
+            chunks = text_chunker(pages, 500, 200)
 
-    elif session=='semantic':
-        pages = extractor(file_path)
-        output_parsed_text = "output_parsed_text"
-        with open(output_parsed_text, "w", encoding="utf-8") as f:
+        elif session=='semantic':
+            pages = extractor(file_path)
+            output_parsed_text = "output_parsed_text"
+            with open(output_parsed_text, "w", encoding="utf-8") as f:
+                for i, doc_item in enumerate(pages):
+                        # Correct way to access and write page content
+                        f.write(f"--- Page {i+1} ---\n")
+                        f.write(doc_item.page_content)
+                        f.write("\n\n") # Add some separation between pages
+            print(f"Number of documents (pages) extracted: {len(pages)}")
             for i, doc_item in enumerate(pages):
-                    # Correct way to access and write page content
-                    f.write(f"--- Page {i+1} ---\n")
-                    f.write(doc_item.page_content)
-                    f.write("\n\n") # Add some separation between pages
-        print(f"Number of documents (pages) extracted: {len(pages)}")
-        for i, doc_item in enumerate(pages):
-            print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-        chunks = semantic_chunker(pages, 1100, 200)
-        faiss_index = embed_and_store_with_faiss(
-            chunks=chunks,
-            openai_api_key=api_key,
-            save_path="faiss_index_store"
-        )
+                print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
+            chunks = semantic_chunker(pages, 1100, 200)
+            faiss_index = embed_and_store_with_faiss(
+                chunks=chunks,
+                openai_api_key=api_key,
+                save_path="faiss_index_store"
+            )
+    elif task == "query":
+        faiss_index = load_faiss_index('faiss_index_store', openai_api_key=api_key)
+        query = input("Enter query - ")
+        candidates = faiss_index.similarity_search(query, k=20)
+        results = hybrid_rerank_with_cross_encoder(query, candidates, top_k=3)
+        for i, doc in enumerate(results):
+            print(f"\n--- Reranked Result {i + 1} ---")
+            print(doc.page_content[:300])
+            print("Metadata:", doc.metadata)
 
 main()
 
