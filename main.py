@@ -228,7 +228,9 @@ def main():
         print(f"Number of documents (pages) extracted: {len(pages)}")
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-        chunks = semantic_chunker_production_final(pages, 1100, 200)
+        chunks = semantic_chunker(pages, 1100, 200)
+        for i, chunk_doc in enumerate(chunks):
+            print(chunk_doc.metadata)
 
 
 main()
