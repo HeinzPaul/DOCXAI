@@ -1,0 +1,33 @@
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import OpenAIEmbeddings
+from typing import List
+from langchain_core.documents import Document
+import os
+
+def embed_and_store_with_faiss(chunks: List[Document], openai_api_key: str, save_path: str = "faiss_index_store") -> FAISS:
+    """Embed the given chunks using OpenAI and store them in a FAISS index."""
+    embedding_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
+
+    # Embed and store
+    faiss_index = FAISS.from_documents(documents=chunks, embedding=embedding_model)
+
+    # Save FAISS index to disk
+    faiss_index.save_local(save_path)
+    print(f"FAISS index saved to {save_path}")
+
+    return faiss_index
+
+
+def load_faiss_index(save_path: str, openai_api_key: str) -> FAISS:
+    """Load FAISS index from disk."""
+    embedding_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    return FAISS.load_local(save_path, embedding=embedding_model)
+
+
+def search_faiss(faiss_index: FAISS, query: str, k: int = 3):
+    """Search for relevant documents using FAISS."""
+    results = faiss_index.similarity_search(query, k=k)
+    for i, doc in enumerate(results):
+        print(f"\n--- Result {i+1} ---")
+        print(doc.page_content[:300])
+        print("Metadata:", doc.metadata)

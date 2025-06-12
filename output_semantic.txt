@@ -9,15 +9,6 @@ framework for constructing dynamic traffic-influence graphs, which are
 subsequently integrated into a Graph Neural Network-based Multi-Agent
 Reinforcement Learning (GNN-MARL) system. This integrated approach aims
 to coordinate signal control policies in real-time, reducing congestion
-propagation and improving network traffic efficiency.
-____Chunk2____
-Methodology
-To address the problem of evolving spatial and temporal dependencies in
-urban traffic systems, we propose a novel adaptive self-supervised learning
-framework for constructing dynamic traffic-influence graphs, which are
-subsequently integrated into a Graph Neural Network-based Multi-Agent
-Reinforcement Learning (GNN-MARL) system. This integrated approach aims
-to coordinate signal control policies in real-time, reducing congestion
 propagation and improving network traffic efficiency. 1.1 Traffic State Encoding
 · Each traffic intersection is considered as an agent that observes its
 environment via sensors capturing data such as:
@@ -27,17 +18,10 @@ environment via sensors capturing data such as:
 · - Current and previous signal phases
 · To convert these raw traffic metrics into a format suitable for downstream
 learning, we propose a spatiotemporal encoding mechanism:
-· - Temporal features are processed using LSTM or Temporal
-Convolutional Networks (TCNs) to model traffic flow trends.
-____Chunk3____
-1.1 Traffic State Encoding
-· Each traffic intersection is considered as an agent that observes its
-environment via sensors capturing data such as:
-· - Vehicle counts per incoming lane
-· - Queue lengths at intersections
-· - Inflow and outflow rates
-· - Current and previous signal phases
-· To convert these raw traffic metrics into a format suitable for downstream
+· - Temporal features are processed using LSTM or Tem
+... (actual length: 1165, chunk_size: 1100)
+____Chunk2____
+suitable for downstream
 learning, we propose a spatiotemporal encoding mechanism:
 · - Temporal features are processed using LSTM or Temporal
 Convolutional Networks (TCNs) to model traffic flow trends. · - Signal phase information is embedded as learnable vectors. · - Features are concatenated and passed through a dense encoding layer
@@ -45,15 +29,10 @@ to form a fixed-size latent representation per intersection. · These latent vec
 construction process. 1.2 Dynamic Influence Learning
 To learn about evolving relationships between intersections, we design a
 self-supervised dynamic influence learning module that constructs a weighted
-adjacency matrix in real-time.
-____Chunk4____
-1.2 Dynamic Influence Learning
-To learn about evolving relationships between intersections, we design a
-self-supervised dynamic influence learning module that constructs a weighted
 adjacency matrix in real-time. · Key components:
 · - Graph Attention Mechanism: Assigns attention weights to neighboring
 nodes based on their encoded features.
-____Chunk5____
+____Chunk3____
 · Contrastive Learning: Uses dropout and feature masking to maximize
 agreement between positive node pairs. · - Mutual Information Maximization: Preserves meaningful global
 dependencies. · The resulting dynamic traffic-influence graph updates at every timestep,
@@ -68,8 +47,9 @@ following metrics:
 · Average Queue Length at intersections
 · Throughput: Number of vehicles reaching destinations
 · Average Travel Time
-.
-____Chunk6____
+. Comparison wi
+... (actual length: 1205, chunk_size: 1100)
+____Chunk4____
 1.4 Performance Evaluation
 · We evaluate the proposed framework on standard benchmarks using the
 following metrics:
@@ -82,7 +62,7 @@ in congestion reduction and flow stability. 1.5 Scalability and Robustness
 · Scalability: Achieved through GNNs and attention mechanisms with graph
 sampling or hierarchical clustering. · Robustness: Tested under sensor faults, incidents, and varying densities
 using dropout regularization and online graph refinement.
-____Chunk7____
+____Chunk5____
 2. Novelty Justification and Model Comparison
 2.1 Comparative Analysis
 Model Graph Type Coordination Dependency Adaptability Learning
@@ -98,5 +78,5 @@ fluctuations. · PressLight relies on handcrafted pressure metrics; it lacks glo
 coordination. · MA2C shares limited local info, and does not learn influence dynamically. 2.3 Key Differentiators
 · Learns real-time evolving influence graphs using self-supervision. · Embeds temporal traffic dynamics with LSTM/TCN encoders. · Integrates attention-based GNNs within a multi-agent RL system. · Adapts to non-stationary traffic patterns and unexpected events. · Enhances coordination across distant intersections via influence
 propagation. · Robust against noise, scalable to larger networks.
-____Chunk8____
+____Chunk6____
 3. System Architecture Diagram

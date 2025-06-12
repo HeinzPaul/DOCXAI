@@ -6,15 +6,17 @@ from docx import Document as DocxDocument
 import nltk
 from nltk.tokenize import sent_tokenize
 import zipfile
-
-''' Adding new imports required for understanding underlying XML structure'''
 from docx import Document as DocxDocument
 from docx.oxml.text.paragraph import CT_P
 from docx.oxml.table import CT_Tbl
 from docx.table import Table as DocxTable
 from docx.text.paragraph import Paragraph as DocxParagraph
+from embedding import embed_and_store_with_faiss
+from dotenv import load_dotenv
 
 
+load_dotenv()
+api_key = os.getenv("OPEN_AI_KEY")
 
 nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_path):
@@ -35,6 +37,20 @@ if nltk_data_path not in nltk.data.path:
 
 session='semantic' #'semantic' or 'text'
 
+def extractor(file_path):
+    if os.path.exists(file_path):
+        if file_path.lower().endswith(".pdf"):
+
+            loader = PDFPlumberLoader(file_path) # we load the file
+            pages = loader.load() # we load it into documnent object
+
+            print("Sucessfully loaded",len(pages), "from",file_path)
+            return pages
+        elif file_path.lower().endswith(".docx"):
+            text = extract_text_and_tables_in_order(file_path)
+            return text
+    else:
+        print("Path does not exist")
 
 
 '''Adding new functions so that we can read table content from .docx files'''
@@ -194,23 +210,6 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
     return chunks
 
 
-def extractor(file_path):
-    if os.path.exists(file_path):
-        if file_path.lower().endswith(".pdf"):
-
-            loader = PDFPlumberLoader(file_path) # we load the file
-            pages = loader.load() # we load it into documnent object
-
-            print("Sucessfully loaded",len(pages), "from",file_path)
-            return pages
-        elif file_path.lower().endswith(".docx"):
-            text = extract_text_and_tables_in_order(file_path)
-            return text
-
-    else:
-        print("Path does not exist")
-
-
 def main():
     file_path = input("Enter the name of the path")
     if session=='text':
@@ -231,9 +230,11 @@ def main():
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
         chunks = semantic_chunker(pages, 1100, 200)
-        for i, chunk_doc in enumerate(chunks):
-            print(chunk_doc.metadata)
-
+        faiss_index = embed_and_store_with_faiss(
+            chunks=chunks,
+            openai_api_key=api_key,
+            save_path="faiss_index_store"
+        )
 
 main()
 
