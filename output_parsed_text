@@ -1,0 +1,30 @@
+· Contrastive Learning: Uses dropout and feature masking to maximize
+agreement between positive node pairs.
+· - Mutual Information Maximization: Preserves meaningful global
+dependencies.
+· The resulting dynamic traffic-influence graph updates at every timestep,
+capturing short- and long-range dependencies.
+1.3 GNN-MARL Integration
+· We integrate the dynamically constructed graphs into a GNN-based MARL
+system, where a local agent controls each intersection.
+· Observation: Node features and messages from dynamically identified
+influential neighbors.
+· Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN).
+· Action: Agent selects the next signal phase.
+· Reward: Based on local traffic efficiency.
+· This setup allows agents to learn coordinated policies using both local and
+non-local context.
+1.4 Performance Evaluation
+· We evaluate the proposed framework on standard benchmarks using the
+following metrics:
+· Average Waiting Time per vehicle
+· Average Queue Length at intersections
+· Throughput: Number of vehicles reaching destinations
+· Average Travel Time
+. Comparison with static-topology MARL baselines will highlight improvements
+in congestion reduction and flow stability.
+1.5 Scalability and Robustness
+· Scalability: Achieved through GNNs and attention mechanisms with graph
+sampling or hierarchical clustering.
+· Robustness: Tested under sensor faults, incidents, and varying densities
+using dropout regularization and online graph refinement.

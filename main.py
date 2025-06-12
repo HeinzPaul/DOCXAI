@@ -137,6 +137,9 @@ def main():
 
     elif session=='semantic':
         pages = extractor(file_path)
+        output_parsed_text = "output_parsed_text"
+        with open(output_parsed_text, "w", encoding="utf-8") as f:
+            f.write(pages[1].page_content)
         print(f"Number of documents (pages) extracted: {len(pages)}")
         for i, doc_item in enumerate(pages):
             print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
