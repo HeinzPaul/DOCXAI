@@ -1,0 +1,138 @@
+____Chunk1____
+Adaptive Self-Supervised Dynamic Influence Learning for
+GNN-based Multi-Agent Traffic Signal Control
+By Heinz and Pavithra
+1. Methodology
+To address the problem of evolving spatial and temporal dependencies in
+urban traffic systems, we propose a novel adaptive self-supervised learning
+framework for constructing dynamic traffic-influence graphs, which are
+subsequently integrated into a Graph Neural Network-based Multi-Agent
+Reinforcement Learning (GNN-MARL) system.
+____Chunk2____
+Methodology
+To address the problem of evolving spatial and temporal dependencies in
+urban traffic systems, we propose a novel adaptive self-supervised learning
+framework for constructing dynamic traffic-influence graphs, which are
+subsequently integrated into a Graph Neural Network-based Multi-Agent
+Reinforcement Learning (GNN-MARL) system. This integrated approach aims
+to coordinate signal control policies in real-time, reducing congestion
+propagation and improving network traffic efficiency.
+____Chunk3____
+Methodology
+To address the problem of evolving spatial and temporal dependencies in
+urban traffic systems, we propose a novel adaptive self-supervised learning
+framework for constructing dynamic traffic-influence graphs, which are
+subsequently integrated into a Graph Neural Network-based Multi-Agent
+Reinforcement Learning (GNN-MARL) system. This integrated approach aims
+to coordinate signal control policies in real-time, reducing congestion
+propagation and improving network traffic efficiency. 1
+... (actual length: 1039, chunk_size: 500)
+____Chunk4____
+suitable for downstream
+learning, we propose a spatiotemporal encoding mechanism:
+· - Temporal features are processed using LSTM or Temporal
+Convolutional Networks (TCNs) to model traffic flow trends. · - Signal phase information is embedded as learnable vectors. · - Features are concatenated and passed through a dense encoding layer
+to form a fixed-size latent representation per intersection. · These latent vectors serve as node features for the influence graph
+construction process.
+____Chunk5____
+· - Features are concatenated and passed through a dense encoding layer
+to form a fixed-size latent representation per intersection. · These latent vectors serve as node features for the influence graph
+construction process. 1.2 Dynamic Influence Learning
+To learn about evolving relationships between intersections, we design a
+self-supervised dynamic influence learning module that constructs a weighted
+adjacency matrix in real-time.
+____Chunk6____
+1.2 Dynamic Influence Learning
+To learn about evolving relationships between intersections, we design a
+self-supervised dynamic influence learning module that constructs a weighted
+adjacency matrix in real-time. · Key components:
+· - Graph Attention Mechanism: Assigns attention weights to neighboring
+nodes based on their encoded features.
+____Chunk7____
+· Contrastive Learning: Uses dropout and feature masking to maximize
+agreement between positive node pairs. · - Mutual Information Maximization: Preserves meaningful global
+dependencies. · The resulting dynamic traffic-influence graph updates at every timestep,
+capturing short- and long-range dependencies. 1.3 GNN-MARL Integration
+· We integrate the dynamically constructed graphs into a GNN-based MARL
+system, where a local agent controls each intersection.
+____Chunk8____
+· The resulting dynamic traffic-influence graph updates at every timestep,
+capturing short- and long-range dependencies. 1.3 GNN-MARL Integration
+· We integrate the dynamically constructed graphs into a GNN-based MARL
+system, where a local agent controls each intersection. · Observation: Node features and messages from dynamically identified
+influential neighbors. · Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN). · Action: Agent selects the next signal phase.
+____Chunk9____
+· Observation: Node features and messages from dynamically identified
+influential neighbors. · Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN). · Action: Agent selects the next signal phase. · Reward: Based on local traffic efficiency. · This setup allows agents to learn coordinated policies using both local and
+non-local context.
+____Chunk10____
+· Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN). · Action: Agent selects the next signal phase. · Reward: Based on local traffic efficiency. · This setup allows agents to learn coordinated policies using both local and
+non-local context. 1.4 Performance Evaluation
+· We evaluate the proposed framework on standard benchmarks using the
+following metrics:
+· Average Waiting Time per vehicle
+· Average Queue Length at intersections
+· Throughput: Number of vehicles reaching dest
+... (actual length: 532, chunk_size: 500)
+____Chunk11____
+andard benchmarks using the
+following metrics:
+· Average Waiting Time per vehicle
+· Average Queue Length at intersections
+· Throughput: Number of vehicles reaching destinations
+· Average Travel Time
+. Comparison with static-topology MARL baselines will highlight improvements
+in congestion reduction and flow stability. 1.5 Scalability and Robustness
+· Scalability: Achieved through GNNs and attention mechanisms with graph
+sampling or hierarchical clustering.
+____Chunk12____
+Comparison with static-topology MARL baselines will highlight improvements
+in congestion reduction and flow stability. 1.5 Scalability and Robustness
+· Scalability: Achieved through GNNs and attention mechanisms with graph
+sampling or hierarchical clustering. · Robustness: Tested under sensor faults, incidents, and varying densities
+using dropout regularization and online graph refinement.
+____Chunk13____
+2. Novelty Justification and Model Comparison
+2.1 Comparative Analysis
+Model Graph Type Coordination Dependency Adaptability Learning
+Capture Type
+CoLight Static Graph Attn. No Low MARL + GAT
+PressLight Static Pressure Rule No None Rule-based
+MA2C Static Local Info Partial (fixed) Low A2C (shared)
+Ours Dynamic GNN + Yes High Self-supervis
+Attention ed + MARL
+2.2 Limitations of Existing Models
+· CoLight assumes a fixed graph, failing to adapt to real-time traffic
+fluctuations.
+____Chunk14____
+No Low MARL + GAT
+PressLight Static Pressure Rule No None Rule-based
+MA2C Static Local Info Partial (fixed) Low A2C (shared)
+Ours Dynamic GNN + Yes High Self-supervis
+Attention ed + MARL
+2.2 Limitations of Existing Models
+· CoLight assumes a fixed graph, failing to adapt to real-time traffic
+fluctuations. · PressLight relies on handcrafted pressure metrics; it lacks global
+coordination. · MA2C shares limited local info, and does not learn influence dynamically.
+____Chunk15____
+No Low MARL + GAT
+PressLight Static Pressure Rule No None Rule-based
+MA2C Static Local Info Partial (fixed) Low A2C (shared)
+Ours Dynamic GNN + Yes High Self-supervis
+Attention ed + MARL
+2.2 Limitations of Existing Models
+· CoLight assumes a fixed graph, failing to adapt to real-time traffic
+fluctuations. · PressLight relies on handcrafted pressure metrics; it lacks global
+coordination. · MA2C shares limited local info, and does not learn influence dynamically. 2.3 Key Differentiators
+· Learns r
+... (actual length: 558, chunk_size: 500)
+____Chunk16____
+; it lacks global
+coordination. · MA2C shares limited local info, and does not learn influence dynamically. 2.3 Key Differentiators
+· Learns real-time evolving influence graphs using self-supervision. · Embeds temporal traffic dynamics with LSTM/TCN encoders. · Integrates attention-based GNNs within a multi-agent RL system. · Adapts to non-stationary traffic patterns and unexpected events. · Enhances coordination across distant intersections via influence
+propagation.
+____Chunk17____
+· Integrates attention-based GNNs within a multi-agent RL system. · Adapts to non-stationary traffic patterns and unexpected events. · Enhances coordination across distant intersections via influence
+propagation. · Robust against noise, scalable to larger networks.
+____Chunk18____
+3. System Architecture Diagram
