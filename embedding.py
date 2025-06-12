@@ -13,23 +13,22 @@ def hybrid_rerank_with_cross_encoder(query: str, docs: list, top_k: int = 5):
 
     # Attach scores and sort
     scored_docs = sorted(zip(scores, docs), reverse=True, key=lambda x: x[0])
-    print("\nCross-Encoder Scores:")
-    for i, (score, doc) in enumerate(scored_docs[:top_k]):
-        print(f"{i + 1}. Score: {score:.2f} | Preview: {doc.page_content[:80]}")
-
     return [doc for score, doc in scored_docs[:top_k]]
 
 def embed_and_store_with_faiss(chunks: List[Document], openai_api_key: str, save_path: str = "faiss_index_store") -> FAISS:
     """Embed the given chunks using OpenAI and store them in a FAISS index."""
     embedding_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
-    # Embed and store
-    faiss_index = FAISS.from_documents(documents=chunks, embedding=embedding_model)
-
-    # Save FAISS index to disk
-    faiss_index.save_local(save_path)
-    print(f"FAISS index saved to {save_path}")
-
+    if os.path.exists(os.path.join(save_path, "index.faiss")):
+        print("Loading existing FAISS index...")
+        faiss_index = FAISS.load_local(save_path, embedding_model, allow_dangerous_deserialization=True)
+        faiss_index.add_documents(chunks)
+        faiss_index.save_local(save_path)
+        print("Saved")
+    else:
+        print("Creating new FAISS index...")
+        faiss_index = FAISS.from_documents(chunks, embedding=embedding_model)
+        faiss_index.save_local(save_path)
     return faiss_index
 
 

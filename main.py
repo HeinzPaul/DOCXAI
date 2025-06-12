@@ -13,6 +13,7 @@ from docx.text.paragraph import Paragraph as DocxParagraph
 from embedding import embed_and_store_with_faiss
 from dotenv import load_dotenv
 from embedding import search_faiss, load_faiss_index, hybrid_rerank_with_cross_encoder
+from rag import generate_answer_from_chunks
 
 
 load_dotenv()
@@ -210,7 +211,7 @@ def semantic_chunker(pages, chunk_size=500, chunk_overlap=200):
     return chunks
 
 
-def main():
+if __name__ == "__main__":
     task = input("Enter what to do - embed or query ")
     if task == "embed":
         file_path = input("Enter the name of the path")
@@ -231,7 +232,7 @@ def main():
             print(f"Number of documents (pages) extracted: {len(pages)}")
             for i, doc_item in enumerate(pages):
                 print(f"Content of doc {i} (first 150 chars): {doc_item.page_content[:150]}")
-            chunks = semantic_chunker(pages, 1100, 200)
+            chunks = semantic_chunker(pages, 5000, 800)
             faiss_index = embed_and_store_with_faiss(
                 chunks=chunks,
                 openai_api_key=api_key,
@@ -242,10 +243,7 @@ def main():
         query = input("Enter query - ")
         candidates = faiss_index.similarity_search(query, k=20)
         results = hybrid_rerank_with_cross_encoder(query, candidates, top_k=3)
-        for i, doc in enumerate(results):
-            print(f"\n--- Reranked Result {i + 1} ---")
-            print(doc.page_content[:300])
-            print("Metadata:", doc.metadata)
+        answer = generate_answer_from_chunks(query, results, api_key)
+        print(answer)
 
-main()
 
