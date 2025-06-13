@@ -1,4 +1,72 @@
 ____Chunk1____
+<<<<<<< HEAD
+Adaptive Self-Supervised Dynamic Influence Learning for
+GNN-based Multi-Agent Traffic Signal Control
+By Heinz and Pavithra
+1. Methodology
+To address the problem of evolving spatial and temporal dependencies in
+urban traffic systems, we propose a novel adaptive self-supervised learning
+framework for constructing dynamic traffic-influence graphs, which are
+subsequently integrated into a Graph Neural Network-based Multi-Agent
+Reinforcement Learning (GNN-MARL) system. This integrated approach aims
+to coordinate signal control policies in real-time, reducing congestion
+propagation and improving network traffic efficiency. 1.1 Traffic State Encoding
+· Each traffic intersection is considered as an agent that observes its
+environment via sensors capturing data such as:
+· - Vehicle counts per incoming lane
+· - Queue lengths at intersections
+· - Inflow and outflow rates
+· - Current and previous signal phases
+· To convert these raw traffic metrics into a format suitable for downstream
+learning, we propose a spatiotemporal encoding mechanism:
+· - Temporal features are processed using LSTM or Temporal
+Convolutional Networks (TCNs) to model traffic flow trends. · - Signal phase information is embedded as learnable vectors. · - Features are concatenated and passed through a dense encoding layer
+to form a fixed-size latent representation per intersection. · These latent vectors serve as node features for the influence graph
+construction process. 1.2 Dynamic Influence Learning
+To learn about evolving relationships between intersections, we design a
+self-supervised dynamic influence learning module that constructs a weighted
+adjacency matrix in real-time. · Key components:
+· - Graph Attention Mechanism: Assigns attention weights to neighboring
+nodes based on their encoded features.
+____Chunk2____
+· Contrastive Learning: Uses dropout and feature masking to maximize
+agreement between positive node pairs. · - Mutual Information Maximization: Preserves meaningful global
+dependencies. · The resulting dynamic traffic-influence graph updates at every timestep,
+capturing short- and long-range dependencies. 1.3 GNN-MARL Integration
+· We integrate the dynamically constructed graphs into a GNN-based MARL
+system, where a local agent controls each intersection. · Observation: Node features and messages from dynamically identified
+influential neighbors. · Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN). · Action: Agent selects the next signal phase. · Reward: Based on local traffic efficiency. · This setup allows agents to learn coordinated policies using both local and
+non-local context. 1.4 Performance Evaluation
+· We evaluate the proposed framework on standard benchmarks using the
+following metrics:
+· Average Waiting Time per vehicle
+· Average Queue Length at intersections
+· Throughput: Number of vehicles reaching destinations
+· Average Travel Time
+. Comparison with static-topology MARL baselines will highlight improvements
+in congestion reduction and flow stability. 1.5 Scalability and Robustness
+· Scalability: Achieved through GNNs and attention mechanisms with graph
+sampling or hierarchical clustering. · Robustness: Tested under sensor faults, incidents, and varying densities
+using dropout regularization and online graph refinement.
+____Chunk3____
+2. Novelty Justification and Model Comparison
+2.1 Comparative Analysis
+Model Graph Type Coordination Dependency Adaptability Learning
+Capture Type
+CoLight Static Graph Attn. No Low MARL + GAT
+PressLight Static Pressure Rule No None Rule-based
+MA2C Static Local Info Partial (fixed) Low A2C (shared)
+Ours Dynamic GNN + Yes High Self-supervis
+Attention ed + MARL
+2.2 Limitations of Existing Models
+· CoLight assumes a fixed graph, failing to adapt to real-time traffic
+fluctuations. · PressLight relies on handcrafted pressure metrics; it lacks global
+coordination. · MA2C shares limited local info, and does not learn influence dynamically. 2.3 Key Differentiators
+· Learns real-time evolving influence graphs using self-supervision. · Embeds temporal traffic dynamics with LSTM/TCN encoders. · Integrates attention-based GNNs within a multi-agent RL system. · Adapts to non-stationary traffic patterns and unexpected events. · Enhances coordination across distant intersections via influence
+propagation. · Robust against noise, scalable to larger networks.
+____Chunk4____
+3. System Architecture Diagram
+=======
 Diabetic Retinopathy Detection with AI-Powered Diagnostics 
 The Problem: 
 Diabetic retinopathy is the leading cause of blindness among working-age adults, affecting over 140 million people globally. Early detection is critical, but current diagnostic methods are time-consuming, expensive, and often inaccessible, especially in underserved areas. Despite its prevalence, early detection remains a significant challenge due to: 
@@ -16,3 +84,4 @@ ____Chunk2____
 The intelligence gained from the previous phase is deployed on the CAD system. The integration of the trained model specified above with handheld capturing device will help the user to find the possibility of an early prediction of DR. Phase 3: 
 Manual analysis of fundus or Optical Coherence Tomography (OCT) images often leads to high rates of misdiagnosis, is time-consuming, and costly. To address these challenges, automated systems for diagnosing retinal disorders from fundus or OCT images are being developed. For early diagnosis, specialized MI (medical imaging) modality is very important. OCT (Optical Coherence Tomography) is one of the highly informative imaging tools used for retinal examination because of its high resolution. In this work, OCT imaging is considered due to its high image quality and its ability to image the retinal layers. This work presents an automated Fused Feature Selection based DL system for diabetic retinopathy detection from OCT images. Competitive Advantage: 
 Innovative Technology: Our AI algorithm is designed to outperform traditional screening methods in accuracy and speed. Accessibility: The platform will be deployable in low-resource settings, bridging the gap in healthcare access. Cost Savings: By automating diagnostics, we reduce the burden on healthcare systems and patients.
+>>>>>>> 569eed156cc7822f54d37e9d0c55752810a008e5
