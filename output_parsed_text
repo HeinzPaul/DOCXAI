@@ -1,48 +1,100 @@
 --- Page 1 ---
-Sample Document
-This document was created using accessibility techniques for headings, lists, image alternate text, tables, and columns. It should be completely accessible using assistive technologies such as screen readers.
-Headings
-There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. The main section headings, such as "Headings" and "Lists" are level 2 headings. The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.
-Lists
-The following outline of the sections of this document is an ordered (numbered) list with six items. The fifth item, "Tables," contains a nested unordered (bulleted) list with two items.
-Headings 
-Lists 
-Links 
-Images 
-Tables 
-Simple Tables 
-Complex Tables 
-Columns 
-Links
-In web documents, links can point different locations on the page, different pages, or even downloadable documents, such as Word documents or PDFs:
-Top of this Page
-Sample Document
-Sample Document (docx)
-Images
-Documents may contain images. For example, there is an image of the web accessibility symbol to the left of this paragraph. Its alternate text is "Web Access Symbol".
-Alt text should communicate what an image means, not how it looks.
-Some images, such as charts or graphs, require long descriptions, but not all document types allow that. In web pages, long descriptions may be provided in several ways: on the page below the image, via a link below the image, or via a link on the image.
-Tables
-Simple Tables
-Simple tables have a uniform number of columns and rows, without any merged cells:
-Screen Reader Responses Share
-JAWS 853 49%
-NVDA 238 14%
-Window-Eyes 214 12%
-System Access 181 10%
-VoiceOver 159 9%
+Adaptive Self-Supervised Dynamic Influence Learning for
+GNN-based Multi-Agent Traffic Signal Control
+By Heinz and Pavithra
+1. Methodology
+To address the problem of evolving spatial and temporal dependencies in
+urban traffic systems, we propose a novel adaptive self-supervised learning
+framework for constructing dynamic traffic-influence graphs, which are
+subsequently integrated into a Graph Neural Network-based Multi-Agent
+Reinforcement Learning (GNN-MARL) system. This integrated approach aims
+to coordinate signal control policies in real-time, reducing congestion
+propagation and improving network traffic efficiency.
+1.1 Traffic State Encoding
+· Each traffic intersection is considered as an agent that observes its
+environment via sensors capturing data such as:
+· - Vehicle counts per incoming lane
+· - Queue lengths at intersections
+· - Inflow and outflow rates
+· - Current and previous signal phases
+· To convert these raw traffic metrics into a format suitable for downstream
+learning, we propose a spatiotemporal encoding mechanism:
+· - Temporal features are processed using LSTM or Temporal
+Convolutional Networks (TCNs) to model traffic flow trends.
+· - Signal phase information is embedded as learnable vectors.
+· - Features are concatenated and passed through a dense encoding layer
+to form a fixed-size latent representation per intersection.
+· These latent vectors serve as node features for the influence graph
+construction process.
+1.2 Dynamic Influence Learning
+To learn about evolving relationships between intersections, we design a
+self-supervised dynamic influence learning module that constructs a weighted
+adjacency matrix in real-time.
+· Key components:
+· - Graph Attention Mechanism: Assigns attention weights to neighboring
+nodes based on their encoded features.
 
-Complex Tables
-The following is a complex table, using merged cells as headers for sections within the table. This can't be made accessible in all types of documents:
- May 2012 May 2012 September 2010 September 2010
-Screen Reader Responses Share Responses Share
-JAWS 853 49% 727 59%
-NVDA 238 14% 105 9%
-Window-Eyes 214 12% 138 11%
-System Access 181 10% 58 5%
-VoiceOver 159 9% 120 10%
 
-Columns
-This is an example of columns. With columns, the page is split into two or more horizontal sections. Unlike tables, in which you usually read across a row and then down to the next, in columns, you read down a column and then across to the next.When columns are not created correctly, screen readers may run lines together, reading the first line of the first column, then the first line of the second column, then the second line of the first column, and so on. Obviously, that is not accessible.
+--- Page 2 ---
+· Contrastive Learning: Uses dropout and feature masking to maximize
+agreement between positive node pairs.
+· - Mutual Information Maximization: Preserves meaningful global
+dependencies.
+· The resulting dynamic traffic-influence graph updates at every timestep,
+capturing short- and long-range dependencies.
+1.3 GNN-MARL Integration
+· We integrate the dynamically constructed graphs into a GNN-based MARL
+system, where a local agent controls each intersection.
+· Observation: Node features and messages from dynamically identified
+influential neighbors.
+· Policy Network: GAT layer followed by a policy head (e.g., PPO or DQN).
+· Action: Agent selects the next signal phase.
+· Reward: Based on local traffic efficiency.
+· This setup allows agents to learn coordinated policies using both local and
+non-local context.
+1.4 Performance Evaluation
+· We evaluate the proposed framework on standard benchmarks using the
+following metrics:
+· Average Waiting Time per vehicle
+· Average Queue Length at intersections
+· Throughput: Number of vehicles reaching destinations
+· Average Travel Time
+. Comparison with static-topology MARL baselines will highlight improvements
+in congestion reduction and flow stability.
+1.5 Scalability and Robustness
+· Scalability: Achieved through GNNs and attention mechanisms with graph
+sampling or hierarchical clustering.
+· Robustness: Tested under sensor faults, incidents, and varying densities
+using dropout regularization and online graph refinement.
+
+
+--- Page 3 ---
+2. Novelty Justification and Model Comparison
+2.1 Comparative Analysis
+Model Graph Type Coordination Dependency Adaptability Learning
+Capture Type
+CoLight Static Graph Attn. No Low MARL + GAT
+PressLight Static Pressure Rule No None Rule-based
+MA2C Static Local Info Partial (fixed) Low A2C (shared)
+Ours Dynamic GNN + Yes High Self-supervis
+Attention ed + MARL
+2.2 Limitations of Existing Models
+· CoLight assumes a fixed graph, failing to adapt to real-time traffic
+fluctuations.
+· PressLight relies on handcrafted pressure metrics; it lacks global
+coordination.
+· MA2C shares limited local info, and does not learn influence dynamically.
+2.3 Key Differentiators
+· Learns real-time evolving influence graphs using self-supervision.
+· Embeds temporal traffic dynamics with LSTM/TCN encoders.
+· Integrates attention-based GNNs within a multi-agent RL system.
+· Adapts to non-stationary traffic patterns and unexpected events.
+· Enhances coordination across distant intersections via influence
+propagation.
+· Robust against noise, scalable to larger networks.
+
+
+--- Page 4 ---
+3. System Architecture Diagram
 
 
