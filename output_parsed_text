@@ -1,48 +1,35 @@
 --- Page 1 ---
-Sample Document
-This document was created using accessibility techniques for headings, lists, image alternate text, tables, and columns. It should be completely accessible using assistive technologies such as screen readers.
-Headings
-There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. The main section headings, such as "Headings" and "Lists" are level 2 headings. The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.
-Lists
-The following outline of the sections of this document is an ordered (numbered) list with six items. The fifth item, "Tables," contains a nested unordered (bulleted) list with two items.
-Headings 
-Lists 
-Links 
-Images 
-Tables 
-Simple Tables 
-Complex Tables 
-Columns 
-Links
-In web documents, links can point different locations on the page, different pages, or even downloadable documents, such as Word documents or PDFs:
-Top of this Page
-Sample Document
-Sample Document (docx)
-Images
-Documents may contain images. For example, there is an image of the web accessibility symbol to the left of this paragraph. Its alternate text is "Web Access Symbol".
-Alt text should communicate what an image means, not how it looks.
-Some images, such as charts or graphs, require long descriptions, but not all document types allow that. In web pages, long descriptions may be provided in several ways: on the page below the image, via a link below the image, or via a link on the image.
-Tables
-Simple Tables
-Simple tables have a uniform number of columns and rows, without any merged cells:
-Screen Reader Responses Share
-JAWS 853 49%
-NVDA 238 14%
-Window-Eyes 214 12%
-System Access 181 10%
-VoiceOver 159 9%
-
-Complex Tables
-The following is a complex table, using merged cells as headers for sections within the table. This can't be made accessible in all types of documents:
- May 2012 May 2012 September 2010 September 2010
-Screen Reader Responses Share Responses Share
-JAWS 853 49% 727 59%
-NVDA 238 14% 105 9%
-Window-Eyes 214 12% 138 11%
-System Access 181 10% 58 5%
-VoiceOver 159 9% 120 10%
-
-Columns
-This is an example of columns. With columns, the page is split into two or more horizontal sections. Unlike tables, in which you usually read across a row and then down to the next, in columns, you read down a column and then across to the next.When columns are not created correctly, screen readers may run lines together, reading the first line of the first column, then the first line of the second column, then the second line of the first column, and so on. Obviously, that is not accessible.
+Diabetic Retinopathy Detection with AI-Powered Diagnostics 
+The Problem: 
+Diabetic retinopathy is the leading cause of blindness among working-age adults, affecting over 140 million people globally. Early detection is critical, but current diagnostic methods are time-consuming, expensive, and often inaccessible, especially in underserved areas. Despite its prevalence, early detection remains a significant challenge due to: 
+High Costs: Traditional diagnostic methods are expensive and require specialized equipment. 
+Limited Access: Many patients, especially in rural or underserved areas, lack access to eye care specialists. 
+Time Delays: Manual screening processes can take days or weeks, delaying critical treatment. 
+As a result, 50% of diabetic patients fail to receive timely screenings, leading to preventable vision loss. 
+The global diabetic retinopathy market is projected to reach $12 billion by 2030, driven by the rising prevalence of diabetes and the growing demand for accessible diagnostic tools. With over 460 million people living with diabetes worldwide, the need for scalable solutions like AI-powered diagnostic system is urgent. 
+The Solution: 
+An AI-powered diagnostic platform that will analyse retinal images in less time, providing accurate, affordable, and scalable detection of diabetic retinopathy. The objective of the proposed work is to implement an intelligent DR prediction model that can be used by the common man as well as by the medical practitioners. By leveraging cutting-edge AI models, we aim to: 
+Make screenings accessible to millions of patients worldwide. 
+Enable early intervention to prevent blindness. 
+Reduce healthcare costs and improve patient outcomes. 
+Why This Matters: 
+Impact: Early detection can prevent up to 90% of diabetes-related blindness, improving quality of life for millions. 
+Scalability: Our platform is designed for use in both urban and rural settings, addressing the global need for diabetic retinopathy screenings. 
+Cost-Effectiveness: By automating the diagnostic process, we aim to reduce costs for healthcare providers and patients by 30%. 
+In countries like the UK, where healthcare systems are under immense pressure, patients often face long delays for medical appointments. For example: 
+Diabetic retinopathy screening appointments can take up to 6 months to schedule in some regions. 
+Delays in diagnosis and treatment lead to worse health outcomes and higher long-term costs for healthcare systems. 
+Solution Overview and Development Roadmap: 
+Phase 1: 
+Currently, diagnosing a disease requires a medical professional, which can be a time-consuming process. If there were a smart device capable of detecting diabetic retinopathy (DR) in its early stages, it could significantly reduce the rate of vision loss caused by DR. The proposed model introduces an efficient Deep Learning (DL)-based approach for predicting diabetic retinopathy (DR) using images of a patient’s retina.  
+ On motivated by the existing issues, an enhanced DL based automated DR detection system is supposed in the proposed work to obtain improved outcomes in developing accurate outcomes with respect to the input data. This work presents an automated deep learning-based detection and classification of retinal fundus images which may further help the ophthalmologists in diagnosing patients accurately and easily. The processes involved in the proposed detection model are Image acquisition, Pre-processing, Segmentation, Feature Extraction, and Classification. 
+Phase 2:  
+As technology continues to advance, smartphones are likely to play an increasingly significant role in retinal imaging, contributing to improved eye care accessibility, early disease detection, and patient-centric healthcare solutions. With the increasing prevalence of high-quality cameras on smartphones, along with advancements in imaging technology, capturing retinal images using these devices has become more accessible and cost-effective. The major phases in this system are (1) retinal image capturing device which contains an ophthalmoscopy lens and a smartphone camera and (2) Computer Aided Detection (CAD) system. The intelligence gained from the previous phase is deployed on the CAD system. The integration of the trained model specified above with handheld capturing device will help the user to find the possibility of an early prediction of DR. 
+Phase 3: 
+Manual analysis of fundus or Optical Coherence Tomography (OCT) images often leads to high rates of misdiagnosis, is time-consuming, and costly. To address these challenges, automated systems for diagnosing retinal disorders from fundus or OCT images are being developed. For early diagnosis, specialized MI (medical imaging) modality is very important. OCT (Optical Coherence Tomography) is one of the highly informative imaging tools used for retinal examination because of its high resolution. In this work, OCT imaging is considered due to its high image quality and its ability to image the retinal layers. This work presents an automated Fused Feature Selection based DL system for diabetic retinopathy detection from OCT images. 
+Competitive Advantage: 
+Innovative Technology: Our AI algorithm is designed to outperform traditional screening methods in accuracy and speed. 
+Accessibility: The platform will be deployable in low-resource settings, bridging the gap in healthcare access. 
+Cost Savings: By automating diagnostics, we reduce the burden on healthcare systems and patients. 
 
 
