@@ -11,12 +11,10 @@ def hybrid_rerank_with_cross_encoder(query: str, docs: list, top_k: int = 5):
     pairs = [(query, doc.page_content) for doc in docs]
     scores = cross_encoder.predict(pairs)
 
-    # Attach scores and sort
     scored_docs = sorted(zip(scores, docs), reverse=True, key=lambda x: x[0])
     return [doc for score, doc in scored_docs[:top_k]]
 
 def embed_and_store_with_faiss(chunks: List[Document], openai_api_key: str, save_path: str = "faiss_index_store") -> FAISS:
-    """Embed the given chunks using OpenAI and store them in a FAISS index."""
     embedding_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
 
     if os.path.exists(os.path.join(save_path, "index.faiss")):

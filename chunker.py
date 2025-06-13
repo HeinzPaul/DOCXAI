@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 from langchain_core.documents import Document
@@ -6,24 +5,21 @@ import nltk
 from nltk.tokenize import sent_tokenize
 import zipfile
 
-load_dotenv()
+def nltk_check():
+    nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+    if not os.path.exists(nltk_data_path):
+        os.makedirs(nltk_data_path)
+        nltk.download('punkt', download_dir=nltk_data_path)
+        nltk.download('punkt_tab', download_dir=nltk_data_path)
+        zip_path = os.path.join(nltk_data_path, 'tokenizers', 'punkt' , 'punkt.zip')
+        extract_to = os.path.join(nltk_data_path, 'tokenizers', 'punkt')
+        if os.path.exists(zip_path):
+            os.makedirs(extract_to, exist_ok=True)
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_to)
 
-nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
-if not os.path.exists(nltk_data_path):
-    os.makedirs(nltk_data_path)
-    nltk.download('punkt', download_dir=nltk_data_path)
-    nltk.download('punkt_tab', download_dir=nltk_data_path)
-    zip_path = os.path.join(nltk_data_path, 'tokenizers', 'punkt' , 'punkt.zip')
-    extract_to = os.path.join(nltk_data_path, 'tokenizers', 'punkt')
-    if os.path.exists(zip_path):
-        os.makedirs(extract_to, exist_ok=True)
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(extract_to)
-
-if nltk_data_path not in nltk.data.path:
-    nltk.data.path.insert(0, nltk_data_path)
-
-
+    if nltk_data_path not in nltk.data.path:
+        nltk.data.path.insert(0, nltk_data_path)
 
 session='semantic' #'semantic' or 'text'
 

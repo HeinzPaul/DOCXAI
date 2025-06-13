@@ -1,41 +1,16 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
-from langchain_core.documents import Document
-import nltk
-from nltk.tokenize import sent_tokenize
-import zipfile
 from embedding import embed_and_store_with_faiss
 from dotenv import load_dotenv
-from embedding import search_faiss, load_faiss_index, hybrid_rerank_with_cross_encoder
+from embedding import load_faiss_index, hybrid_rerank_with_cross_encoder
 from rag import generate_answer_from_chunks
 from parsing import extractor
-from chunker import text_chunker, semantic_chunker
+from chunker import text_chunker, semantic_chunker, nltk_check, session
 
 load_dotenv()
 api_key = os.getenv("OPEN_AI_KEY")
 
-nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
-if not os.path.exists(nltk_data_path):
-    os.makedirs(nltk_data_path)
-    nltk.download('punkt', download_dir=nltk_data_path)
-    nltk.download('punkt_tab', download_dir=nltk_data_path)
-    zip_path = os.path.join(nltk_data_path, 'tokenizers', 'punkt' , 'punkt.zip')
-    extract_to = os.path.join(nltk_data_path, 'tokenizers', 'punkt')
-    if os.path.exists(zip_path):
-        os.makedirs(extract_to, exist_ok=True)
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(extract_to)
-
-if nltk_data_path not in nltk.data.path:
-    nltk.data.path.insert(0, nltk_data_path)
-
-
-
-session='semantic' #'semantic' or 'text'
-
-
-
 if __name__ == "__main__":
+    nltk_check()
     task = input("Enter what to do - embed or query ")
     if task == "embed":
         file_path = input("Enter the name of the path")
