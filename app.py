@@ -1,11 +1,8 @@
-# app.py
-
 import streamlit as st
 import os
 from dotenv import load_dotenv
 import shutil
 
-# Import functions from your existing project files
 from parsing import extractor
 from chunker import text_chunker, semantic_chunker
 from embedding import embed_and_store_with_faiss, load_faiss_index, hybrid_rerank_with_cross_encoder
