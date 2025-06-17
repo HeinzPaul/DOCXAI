@@ -25,3 +25,4 @@ Thumbs.db # Windows
 # Log files and temporary files
 *.log
 *.tmp
+*.txt
